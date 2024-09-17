@@ -1,23 +1,37 @@
 plugins {
-	id 'fabric-loom' version '1.0-SNAPSHOT'
+	id 'fabric-loom' version '1.7.2'
 	id 'maven-publish'
-	id "io.freefair.lombok" version "6.0.0-m2"
+	id "io.freefair.lombok" version "8.10"
 }
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+apply from: 'https://gist.githubusercontent.com/EnricoMessall/fb5de26a0ac26840060fd1ef45c32a5f/raw/cba2886a0fc2c95b24fc093684b4e6bfeafbd5ba/publish.gradle'
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 archivesBaseName = project.archives_base_name
 version = "${project.minecraft_version}-${project.mod_version}"
 group = project.maven_group
-
-apply from: 'https://raw.githubusercontent.com/DarkKronicle/GradleScripts/main/gradle/publish.gradle'
 
 repositories {
 	mavenCentral()
 	mavenLocal() // only used to build the mod locally
 	maven { url 'https://masa.dy.fi/maven' }
 	maven { url 'https://jitpack.io' }
+
+	maven {
+		url = uri("https://maven.pkg.github.com/Arematics/AdvancedChatCore")
+		credentials {
+			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+			password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+		}
+	}
 }
 
 dependencies {
@@ -25,16 +39,19 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.20.2:${project.malilib_version}"
-	//modImplementation "com.github.DarkKronicle:AdvancedChatCore:${project.advancedchat_version}"
-	modImplementation "io.github.darkkronicle:AdvancedChatCore:1.20.4-1.5.10" // only used to build the mod locally
+	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.21:${project.malilib_version}"
+	modImplementation "com.arematics:advancedchatcore:${project.advancedchat_version}"
+
+	implementation "com.github.DarkKronicle.Konstruct:addons:${project.konstruct_version}"
+	implementation "com.github.DarkKronicle.Konstruct:core:${project.konstruct_version}"
 
 	implementation 'org.openjdk.nashorn:nashorn-core:15.3'
 	implementation 'org.javadelight:delight-nashorn-sandbox:0.2.5'
 
 	include 'org.openjdk.nashorn:nashorn-core:15.3'
 	include 'org.javadelight:delight-nashorn-sandbox:0.2.5'
-	include group: 'org.webjars.bower', name: 'js-beautify', version: '1.9.0'
+	include "com.github.DarkKronicle.Konstruct:addons:${project.konstruct_version}"
+	include "com.github.DarkKronicle.Konstruct:core:${project.konstruct_version}"
 
 }
 
@@ -48,12 +65,11 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
-	it.options.release = 16
+	it.options.release = 21
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+java {
+	withSourcesJar()
 }
 
 jar {
@@ -74,9 +90,8 @@ publishing {
 		}
 	}
 
-	// select the repositories you want to publish to
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
+
 	}
 }

@@ -133,7 +133,7 @@ public class TextBuilder {
      */
     public TextBuilder setFont(String namespace, String name) {
         // Dunno if this will do anything or how it works
-        applyStyle(style -> style.withFont(new Identifier(namespace, name)));
+        applyStyle(style -> style.withFont(Identifier.of(namespace, name)));
         return this;
     }
 

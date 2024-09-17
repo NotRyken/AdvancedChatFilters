@@ -94,7 +94,7 @@ public class SoundProcessor implements IMatchProcessor, IJsonApplier, IScreenSup
     }
 
     public static SoundEvent getEvent(String name) {
-        return SoundEvent.of(new Identifier(name));
+        return SoundEvent.of(Identifier.of(name));
     }
 
     /* How the filter notifies the client of a found string.
