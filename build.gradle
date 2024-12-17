@@ -1,7 +1,7 @@
 plugins {
-	id 'fabric-loom' version '1.7.2'
+	id 'fabric-loom' version '1.8.11'
 	id 'maven-publish'
-	id "io.freefair.lombok" version "8.10"
+	id 'io.freefair.lombok' version '8.10'
 }
 
 java {
@@ -39,7 +39,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.21:${project.malilib_version}"
+	modImplementation "com.github.sakura-ryoko:malilib:${project.malilib_version}"
 	modImplementation "com.arematics:advancedchatcore:${project.advancedchat_version}"
 
 	implementation "com.github.DarkKronicle.Konstruct:addons:${project.konstruct_version}"

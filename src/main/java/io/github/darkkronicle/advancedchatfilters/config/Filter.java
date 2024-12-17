@@ -308,7 +308,7 @@ public class Filter implements Comparable<Filter> {
                     continue;
                 }
                 if (r.event
-                        .getId()
+                        .id()
                         .getPath()
                         .replaceAll("\\.", "_")
                         .toLowerCase()
