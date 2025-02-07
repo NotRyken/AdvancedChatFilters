@@ -20,6 +20,7 @@ import fi.dy.masa.malilib.util.StringUtils;
 import io.github.darkkronicle.advancedchatfilters.FiltersHandler;
 import io.github.darkkronicle.advancedchatfilters.config.Filter;
 import io.github.darkkronicle.advancedchatfilters.config.FiltersConfigStorage;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 
 /** Screen for importing and exporting {@link Filter} */
@@ -39,6 +40,14 @@ public class SharingScreen extends GuiBase {
     public static SharingScreen fromFilter(Filter filter, Screen parent) {
         Filter.FilterJsonSave filterJsonSave = new Filter.FilterJsonSave();
         return new SharingScreen(GSON.toJson(filterJsonSave.save(filter)), parent);
+    }
+
+    @Override
+    public void resize(MinecraftClient mc, int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.clearElements();
+        this.clearAndInit();
     }
 
     @Override

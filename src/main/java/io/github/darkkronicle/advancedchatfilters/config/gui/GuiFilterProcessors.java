@@ -15,6 +15,7 @@ import fi.dy.masa.malilib.util.StringUtils;
 import io.github.darkkronicle.advancedchatcore.config.gui.widgets.WidgetListRegistryOption;
 import io.github.darkkronicle.advancedchatcore.config.gui.widgets.WidgetRegistryOptionEntry;
 import io.github.darkkronicle.advancedchatfilters.registry.MatchProcessorRegistry;
+import net.minecraft.client.MinecraftClient;
 
 public class GuiFilterProcessors
         extends GuiListBase<
@@ -29,6 +30,14 @@ public class GuiFilterProcessors
         this.parent = parent;
         this.setParent(parent.getParent());
         this.title = parent.filter.getName().config.getStringValue();
+    }
+
+    @Override
+    public void resize(MinecraftClient mc, int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.clearElements();
+        this.clearAndInit();
     }
 
     @Override

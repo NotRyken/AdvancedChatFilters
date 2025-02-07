@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class WidgetListFilters extends WidgetListBase<Filter, WidgetFilterEntry> {
 
@@ -49,6 +49,11 @@ public class WidgetListFilters extends WidgetListBase<Filter, WidgetFilterEntry>
 
     public void addTextField(TextFieldWrapper<? extends GuiTextFieldGeneric> text) {
         textFields.add(text);
+    }
+
+    @Override
+    public void resize(MinecraftClient mc, int width, int height) {
+        // Prevent an infinite recursion bug
     }
 
     @Override
